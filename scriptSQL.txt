@@ -1,0 +1,121 @@
+CREATE DATABASE IF NOT EXISTS Agenda_Cientifica;
+use Agenda_Cientifica;
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Usuario` (
+  `nome` VARCHAR(45) NULL,
+  `sobrenome` VARCHAR(45) NULL,
+  `cpf` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NULL,
+  `ocupacao` VARCHAR(45) NULL,
+  `profissao` VARCHAR(45) NULL,
+  `formacao` VARCHAR(45) NULL,
+  `senha` VARCHAR(45) NULL,
+  PRIMARY KEY (`cpf`));
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Endereco_usuario` (
+  `idEndereco` INT NOT NULL AUTO_INCREMENT,
+  `rua` VARCHAR(45) NULL,
+  `Bairro` VARCHAR(45) NULL,
+  `Cidade` VARCHAR(45) NULL,
+  `CEP` VARCHAR(45) NULL,
+  `complemento` VARCHAR(45) NULL,
+  `Usuario_cpf` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idEndereco`),
+  INDEX `fk_Endereco_usuario_Usuario1_idx` (`Usuario_cpf` ASC),
+  CONSTRAINT `fk_Endereco_usuario_Usuario1`
+    FOREIGN KEY (`Usuario_cpf`)
+    REFERENCES `Agenda_Cientifica`.`Usuario` (`cpf`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Telefone` (
+  `idTelefone` INT NOT NULL AUTO_INCREMENT,
+  `telefone_principal` VARCHAR(45) NULL,
+  `telefoneAuxiliar` VARCHAR(45) NULL,
+  `Usuario_cpf` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idTelefone`),
+  INDEX `fk_Telefone_Usuario1_idx` (`Usuario_cpf` ASC),
+  CONSTRAINT `fk_Telefone_Usuario1`
+    FOREIGN KEY (`Usuario_cpf`)
+    REFERENCES `Agenda_Cientifica`.`Usuario` (`cpf`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Comissao` (
+  `nome_comissao` VARCHAR(45) NULL,
+  `cnpj` VARCHAR(45) NOT NULL,
+  `qtd_integrantes` INT NULL,
+  `senha` VARCHAR(45) NULL,
+  PRIMARY KEY (`cnpj`));
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Endereco_comissao` (
+  `idEndereco` INT NOT NULL AUTO_INCREMENT,
+  `rua` VARCHAR(45) NULL,
+  `Bairro` VARCHAR(45) NULL,
+  `Cidade` VARCHAR(45) NULL,
+  `CEP` VARCHAR(45) NULL,
+  `complemento` VARCHAR(45) NULL,
+  `Comissao_cnpj` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idEndereco`),
+  INDEX `fk_Endereco_comissao_Comissao1_idx` (`Comissao_cnpj` ASC),
+  CONSTRAINT `fk_Endereco_comissao_Comissao1`
+    FOREIGN KEY (`Comissao_cnpj`)
+    REFERENCES `Agenda_Cientifica`.`Comissao` (`cnpj`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Sala` (
+  `idSala` INT NOT NULL AUTO_INCREMENT,
+  `numero_piso` INT NULL,
+  `numero_sala` INT NULL,
+  `capacidade_sala` INT NULL,
+  PRIMARY KEY (`idSala`));
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Evento` (
+  `idEvento` INT NOT NULL AUTO_INCREMENT,
+  `nome_evento` VARCHAR(45) NULL,
+  `tipo_evento` VARCHAR(45) NULL,
+  `area` VARCHAR(45) NULL,
+  `data` VARCHAR(16) NULL,
+  `duracao` INT NULL,
+  `horario` VARCHAR(16) NULL,
+  `sala` INT NULL,
+  PRIMARY KEY (`idEvento`));
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`participante` (
+  `idparticipante` INT NOT NULL AUTO_INCREMENT,
+  `Usuario_idUsuario` INT NOT NULL,
+  `Evento_idEvento` INT NOT NULL,
+  PRIMARY KEY (`idparticipante`, `Evento_idEvento`),
+  INDEX `fk_participante_Evento1_idx` (`Evento_idEvento` ASC),
+  CONSTRAINT `fk_participante_Evento1`
+    FOREIGN KEY (`Evento_idEvento`)
+    REFERENCES `Agenda_Cientifica`.`Evento` (`idEvento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Agenda_Cientifica`.`Certificado` (
+  `idCertificado` INT NOT NULL AUTO_INCREMENT,
+  `data_emissao` DATE NULL,
+  `horario_emissao` VARCHAR(16) NULL,
+  `Evento_idEvento` INT NOT NULL,
+  `participante_idparticipante` INT NOT NULL,
+  PRIMARY KEY (`idCertificado`),
+  INDEX `fk_Certificado_Evento1_idx` (`Evento_idEvento` ASC),
+  INDEX `fk_Certificado_participante1_idx` (`participante_idparticipante` ASC),
+  CONSTRAINT `fk_Certificado_Evento1`
+    FOREIGN KEY (`Evento_idEvento`)
+    REFERENCES `Agenda_Cientifica`.`Evento` (`idEvento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Certificado_participante1`
+    FOREIGN KEY (`participante_idparticipante`)
+    REFERENCES `Agenda_Cientifica`.`participante` (`idparticipante`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+Siga os passos prof
+
+1 - Primeiro o senhor precisa baixar o programa XAMPP ou WAMP para que seja possível a conexao com o banco
+
+2 - O senhor precisa adicionar ao path "raiz do projeto" o pacote que possibilita a conexao com o banco
+
+3- O pacote está na pasta do projeto, apenas precisa inserir ele no path por meio do eclipse pra rodar o sistema.
+
+4 - Copie a pasta Agenda Cientifica e cole na sua pasta de projetos do eclipse chamada "C:users/eclipse-workspace"
+
+5- Abra o localhost do xampp ou wampp após ter ligado o server mysql e apache
+
+6- localize a aba "sql"
+
+7- haverá um arquivo chamado scriptSQl na pasta do projeto , o senhor copia todo o conteúdo e cole na aba sql, clique em executar
+
+8 - Após isso entre no nosso sistema e clique em Run,
+
+9 - Pode usar o sistema normalmente
